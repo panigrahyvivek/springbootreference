@@ -1,14 +1,15 @@
 package com.vivek.springbootreference;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
+import java.util.Arrays;
+import java.util.List;
+
+//import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,23 +35,23 @@ public class MyController {
 	
 	
 	
-	@RequestMapping("/greeting")
-    public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) {
+	@RequestMapping("/api/greeting")
+    public List<Greeting> greeting(@RequestParam(value="name", defaultValue="World") String name) {
 		Greeting greeting = new Greeting( String.format(template, name)); 
-        greeting.add(linkTo(methodOn(MyController.class).greeting(name)).withSelfRel());
-		return greeting;
+        //greeting.add(linkTo(methodOn(MyController.class).greeting(name)).withSelfRel());
+		return Arrays.asList(greeting, greeting);
     }
 	
-	@RequestMapping("/quote")
+	@RequestMapping("/api/quote")
     public Quote quote() {
 		RestTemplate restTemplate = new RestTemplate();
-		Quote quote = restTemplate.getForObject("http://gturnquist-quoters.cfapps.io/api/random", Quote.class);
+		Quote quote = (Quote) restTemplate.getForObject("http://gturnquist-quoters.cfapps.io/api/random", Quote.class);
 		log.info(quote.toString());
 		return quote;
     }
 	
-	@RequestMapping("/customers")
-	@Transactional
+	@RequestMapping("/api/customers")
+//	@Transactional
     public Customer getCustomers() {
 		log.info("Querying for customer records where first_name = 'Josh':");
 
@@ -59,6 +60,7 @@ public class MyController {
 				(rs, rowNum) -> new Customer(rs.getLong("id"), rs.getString("first_name"), rs.getString("last_name")));
 				
     }
+	
 	
 	
 }
