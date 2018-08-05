@@ -1,4 +1,4 @@
-package com.vivek.springbootreference;
+package com.vivek.springbootreference.controllers;
 
 import java.util.Arrays;
 import java.util.List;

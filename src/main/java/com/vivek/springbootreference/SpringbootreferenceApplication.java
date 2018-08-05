@@ -18,6 +18,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
 
+import com.vivek.springbootreference.models.Employee;
+import com.vivek.springbootreference.repositories.CustomerRepository;
+
 
 @SpringBootApplication
 @EnableScheduling
@@ -44,7 +47,7 @@ public class SpringbootreferenceApplication{
 
 	
 	 @Bean 
-	 public CommandLineRunner run(JdbcTemplate jdbcTemplate)
+	 public CommandLineRunner run(JdbcTemplate jdbcTemplate, CustomerRepository repo)
 	 {
 		 log.info("Creating Tables");
 			jdbcTemplate.execute("DROP TABLE customers IF EXISTS");
@@ -56,6 +59,14 @@ public class SpringbootreferenceApplication{
 			splitUpNames.forEach(name -> log.info(String.format("Inserting customer record for %s %s", name[0], name[1])));
 
 			jdbcTemplate.batchUpdate("INSERT INTO customers(first_name, last_name) VALUES (?,?)", splitUpNames);
+			
+			
+			
+			//JPA Repo Initialization
+			repo.save(new Employee(1, "Vivek"));
+			repo.save(new Employee(2, "Priya"));
+			
+			
 			return null;
 		 
 	 }
