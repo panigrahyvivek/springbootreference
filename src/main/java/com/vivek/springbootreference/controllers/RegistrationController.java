@@ -2,6 +2,8 @@ package com.vivek.springbootreference.controllers;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +24,8 @@ import com.vivek.springbootreference.services.UserService;
 @Controller
 public class RegistrationController{
 	
+	private static final Logger log = LoggerFactory.getLogger(MyController.class); 
+	
 	@Autowired
 	UserService service;
 		
@@ -38,9 +42,15 @@ public class RegistrationController{
 	@RequestMapping(value="/user/registration", method=RequestMethod.POST)
 	public ModelAndView submitRegistrationForm(@ModelAttribute("user") @Valid UserDto userDto, 
 			BindingResult result, WebRequest req, Errors errors) {
+		
+		log.info("In create");
+		
 		User registered = new User();
 		if(!result.hasErrors()) {
 			registered = createUserAccount(userDto, result);
+		}
+		else {
+			log.info(result.getAllErrors().toString());
 		}
 		
 		if (registered == null) {
@@ -58,6 +68,7 @@ public class RegistrationController{
 	private User createUserAccount(UserDto userDto, BindingResult result) {
 	    User registered = null;
 	    try {
+	    	log.info("check4");
 	        registered = service.registerNewUserAccount(userDto);
 	    } catch (Exception e) {
 	        return null;

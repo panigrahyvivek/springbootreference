@@ -9,31 +9,20 @@ import javax.validation.constraints.NotNull;
 public class User {
 	
 	@Id
-	private String Id;
+	private long Id;
 	
-    public String getId() {
+    public long getId() {
 		return Id;
 	}
 
-	public void setId(String id) {
+	public void setId(long id) {
 		Id = id;
 	}
 
-	@NotNull
-    @NotEmpty
     private String firstName;
      
-    @NotNull
-    @NotEmpty
     private String lastName;
      
-    @NotNull
-    @NotEmpty
-    private String password;
-    private String matchingPassword;
-     
-    @NotNull
-    @NotEmpty
     private String email;
 
 	public String getFirstName() {
@@ -52,21 +41,7 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getMatchingPassword() {
-		return matchingPassword;
-	}
-
-	public void setMatchingPassword(String matchingPassword) {
-		this.matchingPassword = matchingPassword;
-	}
+	
 
 	public String getEmail() {
 		return email;

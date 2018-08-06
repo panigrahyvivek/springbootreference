@@ -8,5 +8,4 @@ import com.vivek.springbootreference.models.User;
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
 
-
 }
